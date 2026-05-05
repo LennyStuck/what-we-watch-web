@@ -12,140 +12,254 @@
     html, body { height: 100%; }
 
     body {
-      font-family: 'Inter', sans-serif;
-      background: #000;
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #09090f;
       color: #fff;
       min-height: 100dvh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 32px 24px;
+      overflow: hidden;
     }
 
+    /* ── BACKGROUND ── */
+    .bg {
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 55% at 15% 20%, rgba(180,120,255,0.09) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 45% at 85% 75%, rgba(100,180,255,0.07) 0%, transparent 60%),
+        #09090f;
+    }
+
+    /* subtle grid */
+    .bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    /* ── STARS ── */
+    .stars { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+    .star {
+      position: absolute;
+      width: 2px; height: 2px;
+      border-radius: 50%;
+      background: #fff;
+      animation: twinkle var(--d, 3s) ease-in-out infinite var(--delay, 0s);
+      opacity: 0;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      50%       { opacity: var(--op, 0.6); transform: scale(1.2); }
+    }
+
+    /* ── WRAP ── */
     .wrap {
-      width: 100%;
-      max-width: 380px;
+      position: relative; z-index: 10;
+      width: 100%; max-width: 400px;
+      animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* Header */
-    .header {
-      margin-bottom: 48px;
-    }
+    /* ── HEADER ── */
+    .header { margin-bottom: 44px; }
     .header h1 {
-      font-size: 22px;
+      font-size: 15px;
       font-weight: 500;
-      letter-spacing: -0.4px;
-      color: #fff;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.9);
     }
     .header p {
-      font-size: 13px;
-      color: #555;
-      margin-top: 4px;
-      font-weight: 400;
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+      margin-top: 5px;
+      letter-spacing: 0.04em;
     }
 
-    /* Fields */
+    /* ── GLASS INPUT ── */
     .field { margin-bottom: 12px; }
-
     label {
       display: block;
-      font-size: 11px;
-      color: #444;
-      letter-spacing: 0.06em;
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       margin-bottom: 8px;
       font-weight: 500;
     }
 
+    .input-wrap {
+      position: relative;
+    }
     input[type=text], input[type=url] {
       width: 100%;
-      padding: 13px 0;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid #222;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
       color: #fff;
-      font-size: 15px;
+      font-size: 14px;
       font-family: 'Inter', sans-serif;
       font-weight: 400;
       outline: none;
-      transition: border-color 0.2s;
-      border-radius: 0;
+      transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+      -webkit-appearance: none;
     }
-    input:focus { border-bottom-color: #fff; }
-    input::placeholder { color: #333; }
+    input:focus {
+      border-color: rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 0 0 3px rgba(180,120,255,0.12), 0 8px 32px rgba(0,0,0,0.3);
+    }
+    input::placeholder { color: rgba(255,255,255,0.18); }
 
+    /* glow ring on focus */
+    .input-wrap::after {
+      content: '';
+      position: absolute; inset: -1px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, rgba(180,120,255,0.3), rgba(100,180,255,0.2));
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .input-wrap:focus-within::after { opacity: 1; }
+
+    /* fetched title */
     .fetched-title {
       font-size: 12px;
-      color: #555;
+      color: rgba(255,255,255,0.35);
       margin-top: 8px;
       min-height: 16px;
+      padding-left: 4px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
     }
+    .fetched-title.ready { color: rgba(200,160,255,0.7); }
 
-    /* Button */
+    /* ── GLASS BUTTON ── */
     .btn {
+      position: relative;
       width: 100%;
-      padding: 14px;
-      margin-top: 32px;
-      background: #fff;
-      color: #000;
-      border: none;
-      border-radius: 0;
-      font-size: 14px;
+      padding: 15px;
+      margin-top: 28px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 14px;
+      color: rgba(255,255,255,0.92);
+      font-size: 13px;
       font-family: 'Inter', sans-serif;
       font-weight: 500;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       cursor: pointer;
-      transition: background 0.15s, color 0.15s;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: border-color 0.2s, background 0.2s, transform 0.15s, box-shadow 0.2s;
     }
-    .btn:hover:not(:disabled) { background: #e0e0e0; }
-    .btn:active:not(:disabled) { background: #bbb; }
-    .btn:disabled { background: #111; color: #333; cursor: default; }
+    /* shimmer sweep */
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.5s ease;
+    }
+    .btn:hover:not(:disabled)::before { left: 150%; }
+    .btn:hover:not(:disabled) {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.22);
+      box-shadow: 0 4px 24px rgba(180,120,255,0.15), 0 1px 0 rgba(255,255,255,0.08) inset;
+    }
+    .btn:active:not(:disabled) { transform: scale(0.985); }
+    .btn:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+    /* top gloss line */
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      border-radius: 50%;
+    }
 
-    /* Status */
-    #status {
-      margin-top: 16px;
-      font-size: 13px;
-      min-height: 20px;
+    /* ── STATUS ── */
+    #status, #edit-status {
+      margin-top: 14px;
+      font-size: 12px;
+      min-height: 18px;
       line-height: 1.5;
+      letter-spacing: 0.03em;
     }
-    .ok  { color: #fff; }
-    .err { color: #666; }
-    .inf { color: #444; }
+    .ok  { color: rgba(160,230,160,0.85); }
+    .err { color: rgba(255,255,255,0.3); }
+    .inf { color: rgba(255,255,255,0.25); }
 
-    /* Divider */
+    /* ── DIVIDER ── */
     .divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 36px 0 24px;
+      display: flex; align-items: center; gap: 12px;
+      margin: 32px 0 20px;
     }
     .divider::before, .divider::after {
       content: ''; flex: 1;
       height: 1px;
-      background: #1a1a1a;
+      background: rgba(255,255,255,0.06);
     }
-    .divider span { font-size: 11px; color: #333; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.05em; }
+    .divider span {
+      font-size: 10px;
+      color: rgba(255,255,255,0.2);
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
 
-    /* Edit section */
-    #edit-section { display: none; }
+    /* ── EDIT SECTION ── */
+    #edit-section { display: none; animation: fadeUp 0.4s cubic-bezier(0.16,1,0.3,1) both; }
     #edit-section .warn {
       font-size: 12px;
-      color: #555;
-      margin-bottom: 20px;
+      color: rgba(255,255,255,0.28);
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
     }
-    .row { display: flex; gap: 16px; }
+    .row { display: flex; gap: 12px; }
     .row .field:first-child { flex: 1; }
-    .row .field:last-child  { flex: 0 0 80px; }
+    .row .field:last-child  { flex: 0 0 84px; }
 
-    #edit-status { margin-top: 12px; font-size: 13px; min-height: 18px; }
+    /* ── SPARKLE BURST on success ── */
+    .sparkle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 100;
+      font-size: 18px;
+      animation: sparkleFly 1s ease-out forwards;
+    }
+    @keyframes sparkleFly {
+      0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.3); }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="bg"></div>
+  <div class="stars" id="stars"></div>
 
+  <div class="wrap">
     <div class="header">
       <h1>What We Watch</h1>
       <p>Отправить трейлер в Telegram</p>
@@ -154,7 +268,9 @@
     <div id="main-section">
       <div class="field">
         <label>Ссылка на трейлер</label>
-        <input type="url" id="urlInput" placeholder="youtube.com/watch?v=..." />
+        <div class="input-wrap">
+          <input type="url" id="urlInput" placeholder="youtube.com/watch?v=..." autocomplete="off" />
+        </div>
         <div class="fetched-title" id="fetchedTitle"></div>
       </div>
       <button class="btn" id="sendBtn">Отправить</button>
@@ -167,20 +283,62 @@
       <div class="row">
         <div class="field">
           <label>Название фильма</label>
-          <input type="text" id="titleInput" placeholder="Sinners" />
+          <div class="input-wrap">
+            <input type="text" id="titleInput" placeholder="Sinners" autocomplete="off" />
+          </div>
         </div>
         <div class="field">
           <label>Год</label>
-          <input type="text" id="yearInput" placeholder="2025" maxlength="4" />
+          <div class="input-wrap">
+            <input type="text" id="yearInput" placeholder="2025" maxlength="4" autocomplete="off" />
+          </div>
         </div>
       </div>
       <button class="btn" id="retryBtn">Найти и отправить</button>
       <div id="edit-status"></div>
     </div>
-
   </div>
 
   <script>
+  // ── STARS ──
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 55; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.cssText = [
+      `left:${Math.random()*100}%`,
+      `top:${Math.random()*100}%`,
+      `--d:${(2.5 + Math.random()*4).toFixed(1)}s`,
+      `--delay:-${(Math.random()*6).toFixed(1)}s`,
+      `--op:${(0.3 + Math.random()*0.5).toFixed(2)}`,
+      `width:${Math.random()<0.3?3:2}px`,
+      `height:${Math.random()<0.3?3:2}px`,
+    ].join(';');
+    starsEl.appendChild(s);
+  }
+
+  // ── SPARKLE BURST on success ──
+  function burstSparkles(x, y) {
+    const glyphs = ['✦','✧','⋆','·','✦','✧','⋆'];
+    for (let i = 0; i < 9; i++) {
+      const el = document.createElement('div');
+      el.className = 'sparkle';
+      el.textContent = glyphs[i % glyphs.length];
+      const angle = (i / 9) * Math.PI * 2;
+      const dist = 40 + Math.random() * 50;
+      el.style.cssText = [
+        `left:${x}px`, `top:${y}px`,
+        `--tx:${Math.cos(angle)*dist}px`,
+        `--ty:${Math.sin(angle)*dist}px`,
+        `color:rgba(${200+Math.random()*55|0},${150+Math.random()*80|0},255,0.9)`,
+        `font-size:${12+Math.random()*10|0}px`,
+      ].join(';');
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1000);
+    }
+  }
+
+  // ── APP ──
   const BACKEND = 'https://what-we-watch-six.vercel.app';
 
   const sendBtn        = document.getElementById('sendBtn');
@@ -194,60 +352,60 @@
   const editStatus     = document.getElementById('edit-status');
   const fetchedTitleEl = document.getElementById('fetchedTitle');
 
-  function extractMovieTitle(videoTitle) {
-    const seps = [' — ', ' – ', ' - ', ' | '];
-    for (const sep of seps) {
-      const idx = videoTitle.indexOf(sep);
-      if (idx > 0) return videoTitle.slice(0, idx).trim();
+  function extractMovieTitle(t) {
+    for (const sep of [' — ',' – ',' - ',' | ']) {
+      const i = t.indexOf(sep);
+      if (i > 0) return t.slice(0, i).trim();
     }
-    return videoTitle.trim();
+    return t.trim();
   }
 
   async function fetchYouTubeTitle(url) {
     try {
       const r = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`);
       if (!r.ok) return null;
-      const d = await r.json();
-      return d.title || null;
-    } catch (e) { return null; }
+      return (await r.json()).title || null;
+    } catch { return null; }
   }
 
-  let oembedTimer = null;
+  let oTimer = null;
   urlInput.addEventListener('input', () => {
     const url = urlInput.value.trim();
     fetchedTitleEl.textContent = '';
-    clearTimeout(oembedTimer);
+    fetchedTitleEl.className = 'fetched-title';
+    clearTimeout(oTimer);
     if (!url.includes('youtube') && !url.includes('youtu.be')) return;
-    oembedTimer = setTimeout(async () => {
+    oTimer = setTimeout(async () => {
       fetchedTitleEl.textContent = '...';
-      const videoTitle = await fetchYouTubeTitle(url);
-      fetchedTitleEl.textContent = videoTitle ? extractMovieTitle(videoTitle) : '';
+      const vt = await fetchYouTubeTitle(url);
+      if (vt) {
+        fetchedTitleEl.textContent = extractMovieTitle(vt);
+        fetchedTitleEl.classList.add('ready');
+      } else {
+        fetchedTitleEl.textContent = '';
+      }
     }, 600);
   });
 
   async function apiFetch(path, body) {
-    const res = await fetch(BACKEND + path, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const r = await fetch(BACKEND + path, {
+      method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify(body)
     });
-    return res.json();
+    return r.json();
   }
-
   async function doSend(movie) {
-    const res = await apiFetch('/api/share-trailer', movie);
-    if (!res.ok) throw new Error(res.error || 'send error');
+    const r = await apiFetch('/api/share-trailer', movie);
+    if (!r.ok) throw new Error(r.error);
   }
-
   function setStatus(el, msg, cls) {
     el.innerHTML = cls ? `<span class="${cls}">${msg}</span>` : '';
   }
-
-  function showEdit(warn, prefillTitle, prefillYear) {
+  function showEdit(warn, title, year) {
     editWarn.textContent = warn;
     editStatus.innerHTML = '';
-    if (prefillTitle) titleInput.value = prefillTitle;
-    if (prefillYear)  yearInput.value  = prefillYear;
+    if (title) titleInput.value = title;
+    if (year)  yearInput.value  = year;
     retryBtn.disabled = false;
     retryBtn.textContent = 'Найти и отправить';
     editSec.style.display = 'block';
@@ -256,40 +414,37 @@
   sendBtn.addEventListener('click', async () => {
     const url = urlInput.value.trim();
     if (!url) { setStatus(statusEl, '— вставь ссылку', 'err'); return; }
-
     sendBtn.disabled = true;
     editSec.style.display = 'none';
     fetchedTitleEl.textContent = '';
+    fetchedTitleEl.className = 'fetched-title';
     setStatus(statusEl, 'читаю название...', 'inf');
 
     const videoTitle = await fetchYouTubeTitle(url);
     if (!videoTitle) {
-      setStatus(statusEl, '', '');
-      showEdit('— не удалось прочитать название, введи вручную', '', '');
-      sendBtn.disabled = false;
-      return;
+      setStatus(statusEl,'','');
+      showEdit('— не удалось прочитать название','','');
+      sendBtn.disabled = false; return;
     }
-
     const movieTitle = extractMovieTitle(videoTitle);
-    const yearMatch = videoTitle.match(/\b(19|20)\d{2}\b/);
-    const suggestedYear = yearMatch ? yearMatch[0] : '';
+    const yr = (videoTitle.match(/\b(19|20)\d{2}\b/) || [])[0] || '';
 
     setStatus(statusEl, `ищу «${movieTitle}»...`, 'inf');
     try {
       const preview = await apiFetch('/api/preview-trailer', { title: movieTitle });
-
       if (!preview.ok) {
-        setStatus(statusEl, '', '');
-        showEdit(`— «${movieTitle}» не найдено`, preview.suggestedTitle || movieTitle, preview.suggestedYear || suggestedYear);
-        sendBtn.disabled = false;
-        return;
+        setStatus(statusEl,'','');
+        showEdit(`— «${movieTitle}» не найдено`, preview.suggestedTitle || movieTitle, preview.suggestedYear || yr);
+        sendBtn.disabled = false; return;
       }
-
       setStatus(statusEl, 'отправляю...', 'inf');
       await doSend(preview.movie);
+      // success burst
+      const r = sendBtn.getBoundingClientRect();
+      burstSparkles(r.left + r.width/2, r.top + r.height/2);
       setStatus(statusEl, '✓ отправлено', 'ok');
       urlInput.value = '';
-    } catch (e) {
+    } catch {
       setStatus(statusEl, '— ошибка сети', 'err');
     }
     sendBtn.disabled = false;
@@ -299,27 +454,24 @@
     const title = titleInput.value.trim();
     const year  = yearInput.value.trim();
     if (!title) { setStatus(editStatus, '— введи название', 'err'); return; }
-
     retryBtn.disabled = true;
     setStatus(editStatus, 'ищу...', 'inf');
     editWarn.textContent = '';
-
     try {
       const query = year ? `${title} (${year})` : title;
       const preview = await apiFetch('/api/preview-trailer', { title: query });
-
       if (!preview.ok) {
         editWarn.textContent = '— не найдено, попробуй другое название';
-        setStatus(editStatus, '', '');
-        retryBtn.disabled = false;
-        return;
+        setStatus(editStatus,'','');
+        retryBtn.disabled = false; return;
       }
-
       setStatus(editStatus, 'отправляю...', 'inf');
       await doSend(preview.movie);
+      const r = retryBtn.getBoundingClientRect();
+      burstSparkles(r.left + r.width/2, r.top + r.height/2);
       setStatus(editStatus, '✓ отправлено', 'ok');
       retryBtn.textContent = '✓ отправлено';
-    } catch (e) {
+    } catch {
       setStatus(editStatus, '— ошибка сети', 'err');
       retryBtn.disabled = false;
     }
