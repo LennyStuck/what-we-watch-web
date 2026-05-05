@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🍿 What We Watch</title>
   <style>
-    /* ====== RESET & BASE ====== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; }
     body {
@@ -19,8 +18,6 @@
       overflow: hidden;
       position: relative;
     }
-
-    /* ====== GRADIENT BG ====== */
     body::before {
       content: '';
       position: fixed;
@@ -28,13 +25,10 @@
       background:
         radial-gradient(ellipse 80% 60% at 20% 10%, rgba(37,99,235,0.18) 0%, transparent 60%),
         radial-gradient(ellipse 60% 50% at 80% 80%, rgba(124,58,237,0.15) 0%, transparent 55%),
-        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(15,15,30,0.95) 0%, transparent 100%),
         #080808;
       pointer-events: none;
       z-index: 0;
     }
-
-    /* ====== PIXEL CATS ====== */
     .cat {
       position: fixed;
       bottom: 0;
@@ -43,16 +37,11 @@
       pointer-events: none;
       animation: walk linear infinite;
     }
-
-    /* Each cat is a tiny canvas drawn via JS */
     .cat canvas { display: block; }
-
     @keyframes walk {
       from { transform: translateX(0); }
-      to   { transform: translateX(calc(100vw + 80px)); }
+      to   { transform: translateX(calc(100vw + 160px)); }
     }
-
-    /* ====== CARD ====== */
     .card {
       position: relative;
       z-index: 10;
@@ -64,113 +53,44 @@
       max-width: 420px;
       margin: 16px;
       backdrop-filter: blur(24px);
-      box-shadow:
-        0 2px 4px rgba(0,0,0,0.4),
-        0 20px 60px rgba(0,0,0,0.5);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4), 0 20px 60px rgba(0,0,0,0.5);
     }
-
-    .logo {
-      font-size: 28px;
-      text-align: center;
-      margin-bottom: 4px;
-    }
-    h1 {
-      text-align: center;
-      font-size: 20px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 6px;
-      letter-spacing: -0.3px;
-    }
-    .subtitle {
-      text-align: center;
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 28px;
-    }
-
-    /* ====== FIELDS ====== */
+    .logo { font-size: 28px; text-align: center; margin-bottom: 4px; }
+    h1 { text-align: center; font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 6px; letter-spacing: -0.3px; }
+    .subtitle { text-align: center; font-size: 13px; color: #666; margin-bottom: 28px; }
     .field { margin-bottom: 14px; }
-    label {
-      display: block;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: #555;
-      margin-bottom: 6px;
-    }
+    label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: #555; margin-bottom: 6px; }
     input[type=text], input[type=url] {
-      width: 100%;
-      padding: 11px 14px;
+      width: 100%; padding: 11px 14px;
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      color: #fff;
-      font-size: 14px;
-      outline: none;
+      border-radius: 10px; color: #fff; font-size: 14px; outline: none;
       transition: border-color 0.18s;
     }
     input:focus { border-color: #2563eb; background: rgba(255,255,255,0.08); }
     input::placeholder { color: #444; }
-
     .row { display: flex; gap: 10px; }
     .row .field:first-child { flex: 1; }
     .row .field:last-child  { flex: 0 0 90px; }
-
-    /* ====== BUTTON ====== */
     .btn {
-      width: 100%;
-      padding: 13px;
-      background: #2563eb;
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 4px;
-      transition: background 0.18s, transform 0.1s;
-      letter-spacing: -0.2px;
+      width: 100%; padding: 13px;
+      background: #2563eb; color: #fff;
+      border: none; border-radius: 10px;
+      font-size: 15px; font-weight: 600; cursor: pointer;
+      margin-top: 4px; transition: background 0.18s, transform 0.1s;
     }
     .btn:hover:not(:disabled) { background: #1d4ed8; }
     .btn:active:not(:disabled) { transform: scale(0.98); }
     .btn:disabled { background: #1e3a6e; color: #5a7db5; cursor: default; }
-
-    /* ====== STATUS ====== */
-    #status {
-      margin-top: 14px;
-      font-size: 13px;
-      text-align: center;
-      min-height: 20px;
-      line-height: 1.5;
-    }
+    #status { margin-top: 14px; font-size: 13px; text-align: center; min-height: 20px; line-height: 1.5; }
     .ok  { color: #4ade80; }
     .err { color: #f87171; }
     .inf { color: #93c5fd; }
-
-    /* ====== DIVIDER ====== */
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 18px 0 14px;
-    }
-    .divider::before, .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: rgba(255,255,255,0.07);
-    }
+    .divider { display: flex; align-items: center; gap: 10px; margin: 18px 0 14px; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.07); }
     .divider span { font-size: 11px; color: #444; white-space: nowrap; }
-
-    /* ====== EDIT SECTION ====== */
     #edit-section { display: none; }
-    #edit-section .warn {
-      font-size: 12px;
-      color: #fbbf24;
-      text-align: center;
-      margin-bottom: 14px;
-    }
+    #edit-section .warn { font-size: 12px; color: #fbbf24; text-align: center; margin-bottom: 14px; }
   </style>
 </head>
 <body>
@@ -179,8 +99,6 @@
     <div class="logo">🍿</div>
     <h1>What We Watch</h1>
     <p class="subtitle">Отправить трейлер в Telegram</p>
-
-    <!-- Main form -->
     <div id="main-section">
       <div class="field">
         <label>Ссылка на трейлер</label>
@@ -189,8 +107,6 @@
       <button class="btn" id="sendBtn">Отправить 📤</button>
       <div id="status"></div>
     </div>
-
-    <!-- Edit section (shown on not_found) -->
     <div id="edit-section">
       <div class="divider"><span>Фильм не найден — уточни название</span></div>
       <div class="warn" id="edit-warn"></div>
@@ -210,134 +126,120 @@
   </div>
 
   <script>
-  // =============================================
-  // CONFIG
-  // =============================================
   const BACKEND = 'https://what-we-watch-six.vercel.app';
 
   // =============================================
-  // PIXEL CAT SPRITES
+  // PIXEL CAT — black side-view, white eyes
+  // 32 wide x 16 tall pixels, 4px scale
+  // 0=transparent 1=black 2=white
   // =============================================
-  const CAT_SCALE = 3;
-  const FRAME_W = 16, FRAME_H = 16;
+  const W = 32, H = 16, S = 4;
 
-  // 3 cats with slightly different colors
+  // Frame A — legs: front-left & back-right forward
+  const FRAME_A = [
+    0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,
+    1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,
+    1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,0,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,
+    0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,
+    0,0,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,
+    0,0,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,0,0,0,
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+  ];
+
+  // Frame B — legs: front-right & back-left forward
+  const FRAME_B = [
+    0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,
+    1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,
+    1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,0,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,
+    0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,
+    0,0,0,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1,1,0,0,
+    0,0,0,0,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1,0,0,
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+  ];
+
+  const FRAMES = [FRAME_A, FRAME_B];
+
+  // 3 cats: all black body, vary size & speed for depth
   const CATS = [
-    { color: '#f97316', shadow: '#7c2d12', belly: '#fed7aa', speed: 38, size: CAT_SCALE, yOffset: 0 },
-    { color: '#a78bfa', shadow: '#4c1d95', belly: '#ede9fe', speed: 55, size: CAT_SCALE + 1, yOffset: 2 },
-    { color: '#6ee7b7', shadow: '#065f46', belly: '#d1fae5', speed: 44, size: CAT_SCALE,     yOffset: 0 },
+    { speed: 42, size: 4, yOffset: 0,  delay: 0.0 },
+    { speed: 58, size: 3, yOffset: 2,  delay: 0.4 },
+    { speed: 35, size: 5, yOffset: -2, delay: 0.7 },
   ];
 
-  // Pixel art frames: 16x16 grid, row by row
-  // 0=transparent, 1=body, 2=shadow, 3=belly, 4=eye, 5=outline
-  const WALK_FRAMES = [
-    // Frame 1 (left foot forward)
-    [
-      0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,
-      0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,
-      0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,
-      0,0,0,1,1,1,4,1,1,4,1,1,1,0,0,0,
-      0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,
-      0,0,1,1,3,3,3,3,3,3,3,1,1,1,0,0,
-      0,0,1,1,3,3,3,3,3,3,3,1,1,1,0,0,
-      0,0,1,1,3,3,3,3,3,3,3,1,1,1,0,0,
-      0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,
-      0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,
-      0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,
-      0,1,1,1,0,0,1,1,1,1,0,1,0,0,0,0,
-      0,1,1,0,0,0,0,1,1,0,0,0,0,0,0,0,
-      0,2,2,0,0,0,0,2,2,0,0,0,0,0,0,0,
-      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    ],
-    // Frame 2 (right foot forward)
-    [
-      0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,
-      0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,
-      0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,
-      0,0,0,1,1,1,4,1,1,4,1,1,1,0,0,0,
-      0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,
-      0,0,1,1,3,3,3,3,3,3,3,1,1,1,0,0,
-      0,0,1,1,3,3,3,3,3,3,3,1,1,1,0,0,
-      0,0,1,1,3,3,3,3,3,3,3,1,1,1,0,0,
-      0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,
-      0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,
-      0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,
-      0,0,0,0,0,1,1,1,1,0,1,1,1,1,0,0,
-      0,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0,
-      0,0,0,0,0,0,2,2,0,0,0,0,2,2,0,0,
-      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    ],
-  ];
-
-  function drawCatFrame(ctx, frame, cat) {
-    const s = cat.size;
-    const palette = {
-      1: cat.color,
-      2: cat.shadow,
-      3: cat.belly,
-      4: '#1a1a2e',  // eye
-    };
-    ctx.clearRect(0, 0, FRAME_W * s, FRAME_H * s);
-    for (let y = 0; y < FRAME_H; y++) {
-      for (let x = 0; x < FRAME_W; x++) {
-        const v = frame[y * FRAME_W + x];
+  function drawFrame(ctx, frame, s) {
+    ctx.clearRect(0, 0, W * s, H * s);
+    for (let y = 0; y < H; y++) {
+      for (let x = 0; x < W; x++) {
+        const v = frame[y * W + x];
         if (v === 0) continue;
-        ctx.fillStyle = palette[v] || '#fff';
+        ctx.fillStyle = v === 2 ? '#ffffff' : '#111111';
         ctx.fillRect(x * s, y * s, s, s);
       }
     }
   }
 
-  function spawnCat(catDef, index) {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'cat';
-    const s = catDef.size;
-    const canvasW = FRAME_W * s;
-    const canvasH = FRAME_H * s;
-    wrapper.style.bottom = (16 + catDef.yOffset) + 'px';
-    // stagger start positions
-    const startX = -canvasW - (index * Math.floor(Math.random() * 300 + 100));
-    wrapper.style.left = startX + 'px';
+  function spawnCat(cat, idx) {
+    const s = cat.size;
+    const cw = W * s, ch = H * s;
 
-    const duration = Math.round((window.innerWidth + canvasW * 2) / catDef.speed * 1000);
-    wrapper.style.animationDuration = duration + 'ms';
-    // randomise delay so they don't start together
-    wrapper.style.animationDelay = '-' + Math.floor(Math.random() * duration * 0.8) + 'ms';
-    wrapper.style.animationIterationCount = 'infinite';
+    const wrap = document.createElement('div');
+    wrap.className = 'cat';
+    wrap.style.bottom = (8 + cat.yOffset) + 'px';
+
+    const totalDist = window.innerWidth + cw + 60;
+    const dur = Math.round(totalDist / cat.speed * 1000);
+    const startOffset = -cw - idx * Math.floor(Math.random() * 400 + 150);
+    wrap.style.left = startOffset + 'px';
+    wrap.style.animationDuration = dur + 'ms';
+    wrap.style.animationDelay = '-' + Math.floor(dur * cat.delay) + 'ms';
 
     const cvs = document.createElement('canvas');
-    cvs.width  = canvasW;
-    cvs.height = canvasH;
-    wrapper.appendChild(cvs);
-    document.body.appendChild(wrapper);
+    cvs.width = cw; cvs.height = ch;
+    wrap.appendChild(cvs);
+    document.body.appendChild(wrap);
 
     const ctx = cvs.getContext('2d');
-    let frameIdx = 0;
-    const FPS = 8;
+    let fi = 0;
+    drawFrame(ctx, FRAMES[0], s);
     setInterval(() => {
-      drawCatFrame(ctx, WALK_FRAMES[frameIdx % WALK_FRAMES.length], catDef);
-      frameIdx++;
-    }, 1000 / FPS);
+      fi++;
+      drawFrame(ctx, FRAMES[fi % 2], s);
+    }, 140);
   }
 
-  CATS.forEach((cat, i) => spawnCat(cat, i));
+  CATS.forEach(spawnCat);
 
   // =============================================
   // APP LOGIC
   // =============================================
-  const sendBtn   = document.getElementById('sendBtn');
-  const retryBtn  = document.getElementById('retryBtn');
-  const urlInput  = document.getElementById('urlInput');
-  const titleInput= document.getElementById('titleInput');
-  const yearInput = document.getElementById('yearInput');
-  const statusEl  = document.getElementById('status');
-  const editSec   = document.getElementById('edit-section');
-  const editWarn  = document.getElementById('edit-warn');
-  const editStatus= document.getElementById('edit-status');
+  const sendBtn    = document.getElementById('sendBtn');
+  const retryBtn   = document.getElementById('retryBtn');
+  const urlInput   = document.getElementById('urlInput');
+  const titleInput = document.getElementById('titleInput');
+  const yearInput  = document.getElementById('yearInput');
+  const statusEl   = document.getElementById('status');
+  const editSec    = document.getElementById('edit-section');
+  const editWarn   = document.getElementById('edit-warn');
+  const editStatus = document.getElementById('edit-status');
 
-  // ---- helpers ----
   async function apiFetch(path, body) {
     const res = await fetch(BACKEND + path, {
       method: 'POST',
@@ -353,7 +255,7 @@
   }
 
   function setStatus(el, msg, cls) {
-    el.innerHTML = `<span class="${cls}">${msg}</span>`;
+    el.innerHTML = cls ? `<span class="${cls}">${msg}</span>` : '';
   }
 
   function showEdit(warn) {
@@ -362,25 +264,16 @@
     editSec.style.display = 'block';
   }
 
-  // ---- Send button ----
   sendBtn.addEventListener('click', async () => {
     const url = urlInput.value.trim();
-    if (!url) { setStatus(statusEl, '⚠️ Вставь ссылку на трейлер', 'err'); return; }
-
+    if (!url) { setStatus(statusEl, '⚠️ Вставь ссылку', 'err'); return; }
     sendBtn.disabled = true;
     editSec.style.display = 'none';
     setStatus(statusEl, '🔍 Ищу фильм...', 'inf');
-
     try {
-      // Use the page title from URL — derive a search title from URL path/params
-      // We pass the URL as both url and title; backend will use tab.title logic
       const preview = await apiFetch('/api/preview-trailer', { title: url, url });
-
       if (!preview.ok) {
-        // Try to extract a readable title from the URL for pre-fill
-        const suggested = decodeURIComponent(
-          (new URL(url).searchParams.get('v') ? '' : url.split('/').pop().replace(/[-_+]/g,' '))
-        ).trim();
+        const suggested = (() => { try { const u = new URL(url); return u.searchParams.get('v') ? '' : u.pathname.split('/').pop().replace(/[-_+]/g,' '); } catch(e){ return ''; } })();
         titleInput.value = preview.suggestedTitle || suggested || '';
         yearInput.value  = preview.suggestedYear  || '';
         setStatus(statusEl, '', '');
@@ -388,7 +281,6 @@
         sendBtn.disabled = false;
         return;
       }
-
       setStatus(statusEl, '📤 Отправляю...', 'inf');
       await doSend(preview.movie);
       setStatus(statusEl, '✅ Отправлено в Telegram!', 'ok');
@@ -399,27 +291,22 @@
     sendBtn.disabled = false;
   });
 
-  // ---- Retry button ----
   retryBtn.addEventListener('click', async () => {
     const title = titleInput.value.trim();
     const year  = yearInput.value.trim();
     if (!title) { setStatus(editStatus, '⚠️ Введи название', 'err'); return; }
-
     retryBtn.disabled = true;
     setStatus(editStatus, '🔍 Ищу...', 'inf');
     editWarn.textContent = '';
-
     try {
       const query = year ? `${title} (${year})` : title;
       const preview = await apiFetch('/api/preview-trailer', { title: query });
-
       if (!preview.ok) {
         editWarn.textContent = '⚠️ Всё ещё не найден — попробуй другое название';
         setStatus(editStatus, '', '');
         retryBtn.disabled = false;
         return;
       }
-
       setStatus(editStatus, '📤 Отправляю...', 'inf');
       await doSend(preview.movie);
       setStatus(editStatus, '✅ Отправлено!', 'ok');
